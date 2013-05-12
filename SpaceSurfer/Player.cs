@@ -94,10 +94,8 @@ namespace SpaceSurfer
             Console.WriteLine("    Moved succesfully. Fuel: " + PlayersShip.CurrentFuel + "/" + PlayersShip.TotalFuel + 
                 ". Move - " + ++stepCounter + "\n    --------------------------------------------------------------------");
 
-            if (stepCounter % 5 == 0)
-            {
-                constellation.UpdateWorld();
-            }
+            //Обновление мира при перелете
+            constellation.UpdateConstellation();
         }
 
         internal static void EndGame()

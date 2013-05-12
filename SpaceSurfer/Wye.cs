@@ -29,11 +29,15 @@ namespace SpaceSurfer
             goods.Add("Drugs", new Drugs());
         }
 
+        //Обновление звезды
         internal void UpdateWye()
         {
-            foreach (var product in goods)
+            lock (this)
             {
-                product.Value.UpdateGoods();
+                foreach (var product in goods)
+                {
+                    product.Value.UpdateGoods();
+                }
             }
         }
 
@@ -77,40 +81,44 @@ namespace SpaceSurfer
         }
 
         //Торговля
-        internal void Trade(Player player) {
-            while (true) 
+        internal void Trade(Player player)
+        {
+            lock (this)
             {
-                Console.Write("    Trade with => ");
-                string input = Console.ReadLine();
-                if (input == "0") 
+                while (true)
                 {
-                    return;
-                }
-                if (!(goods.ContainsKey(input)))
-                {
-                    continue;
-                }
-                Goods product = goods[input];
-                if (product.GetIllegalityLevel() > ToleranceLevel) 
-                {
-                    Console.WriteLine("    Denied here!");
-                }
-                else 
-                {
-                    Console.Write("    {0}. Your cash: {1}. Buy - 1, sell - 2 => ", product,
-                        player.Money);
-                    switch (Console.ReadLine()) 
+                    Console.Write("    Trade with => ");
+                    string input = Console.ReadLine();
+                    if (input == "0")
                     {
-                        case "0":
-                            return;
-                        case "1":
-                            product.Buy(player, input);
-                            break;
-                        case "2":
-                            product.Sell(player, input);
-                            break;
-                        default:
-                            break;
+                        return;
+                    }
+                    if (!(goods.ContainsKey(input)))
+                    {
+                        continue;
+                    }
+                    Goods product = goods[input];
+                    if (product.GetIllegalityLevel() > ToleranceLevel)
+                    {
+                        Console.WriteLine("    Denied here!");
+                    }
+                    else
+                    {
+                        Console.Write("    {0}. Your cash: {1}. Buy - 1, sell - 2 => ", product,
+                            player.Money);
+                        switch (Console.ReadLine())
+                        {
+                            case "0":
+                                return;
+                            case "1":
+                                product.Buy(player, input);
+                                break;
+                            case "2":
+                                product.Sell(player, input);
+                                break;
+                            default:
+                                break;
+                        }
                     }
                 }
             }

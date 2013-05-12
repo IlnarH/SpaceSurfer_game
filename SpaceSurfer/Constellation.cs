@@ -9,10 +9,12 @@ namespace SpaceSurfer
     {
         //Звезды в созвездии
         internal readonly Dictionary<string, Wye> wyes = new Dictionary<string, Wye>();
+        internal string Name { get; private set; }
 
         //Конструктор (инициализация звезд)
         internal Constellation()
         {
+            Name = "Lion";
             Wye arya = new Wye("Arya", 0, 3);
             Wye belez = new Wye("Belez", 0, 2);
             Wye celena = new Wye("Celena", 2, 1);
@@ -32,7 +34,8 @@ namespace SpaceSurfer
             wyes.Add("Devian", devian);
         }
         
-        internal void UpdateWorld()
+        //Обновление созвездия
+        internal void UpdateConstellation()
         {
             foreach (var wye in wyes)
             {
